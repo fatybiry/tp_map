@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>try- Leaflet</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script src="biry1.geojson"></script> 
+
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+</head>
+<body>
+
+<div id="map" style="width: 1200px; height: 600px;"></div>
+<script>
+	// Initialisation de la carte centrée sur ny
+	const map = L.map('map').setView([-74.021666855357722, 40.603177255343375], 16);
+
+	// Ajout de la couche de tuiles OpenStreetMap
+	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+	// Ajout d'un marqueur à ny (marqueur par défaut en bleu)
+	L.marker([-74.011763726438133, 40.739667366734274]).addTo(map)
+		.bindPopup("<b>ny</b><br>staten island.")
+		.openPopup();
+        L.geoJSON(pop).addTo(map)
+
+	// Ajout d'un polygone autour du marqueur avec une couleur rose
+	var polygon = L.polygon([
+		[-74.015142561002719, 40.732895420839476 ], // Point 1
+		[-74.015142561002719, 40.732895420839476 ], // Point 2
+		[ -74.009907746888629, 40.741808881599191], // Point 3
+		[-74.011763726438133, 40.739667366734274]  // Point 4
+	], {
+		color: 'pink',  // Bordure du polygone en rose
+		fillColor: 'pink',  // Intérieur du polygone en rose
+		fillOpacity: 0.5    // Opacité de l'intérieur du polygone
+	}).addTo(map);
+
+	// Ajouter une popup au polygone
+	polygon.bindPopup("Zone polygonale autour de ny.");
+</script>
+
+</body>
+</html>
